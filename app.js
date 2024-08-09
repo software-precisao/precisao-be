@@ -18,6 +18,7 @@ const rotaUsuario = require("./routes/usuario");
 const rotaPerfil = require("./routes/perfil");
 const rotaPlano = require("./routes/plano");
 const rotaTermo = require("./routes/termo");
+const rotaInput = require("./routes/input");
 
 
 app.use(morgan("dev"));
@@ -51,6 +52,7 @@ app.use("/usuario", rotaUsuario);
 app.use("/perfil", rotaPerfil);
 app.use("/planos", rotaPlano);
 app.use("/termo", rotaTermo);
+app.use("/input", rotaInput);
 
 
 
