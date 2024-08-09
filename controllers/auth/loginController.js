@@ -47,7 +47,6 @@ const autenticarUsuario = async (req, res, next) => {
       const dataFimTeste = new Date(periodoTeste.data_inicio);
       dataFimTeste.setDate(dataFimTeste.getDate() + 30);
 
-
       const token = jwt.sign(
         {
           id_user: usuario.id_user,

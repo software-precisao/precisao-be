@@ -9,8 +9,12 @@ const Inputs = conn.define(
       autoIncrement: true,
       primaryKey: true,
     },
+    nome_input: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
     type: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       allowNull: false,
     },
     input: {
