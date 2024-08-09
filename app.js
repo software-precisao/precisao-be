@@ -54,8 +54,6 @@ app.use("/planos", rotaPlano);
 app.use("/termo", rotaTermo);
 app.use("/input", rotaInput);
 
-
-
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 
 app.get("/api-test", (req, res) => {
