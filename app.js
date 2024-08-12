@@ -19,6 +19,7 @@ const rotaPerfil = require("./routes/perfil");
 const rotaPlano = require("./routes/plano");
 const rotaTermo = require("./routes/termo");
 const rotaInput = require("./routes/input");
+const rotaProjeto = require("./routes/projeto");
 
 
 app.use(morgan("dev"));
@@ -53,6 +54,7 @@ app.use("/perfil", rotaPerfil);
 app.use("/planos", rotaPlano);
 app.use("/termo", rotaTermo);
 app.use("/input", rotaInput);
+app.use("/projeto", rotaProjeto);
 
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 
