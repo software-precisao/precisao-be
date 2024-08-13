@@ -4,7 +4,7 @@ const niveisController = require("../controllers/nivel/nivelController");
 
 /**
  * @swagger
- * /niveis:
+ * /nivel:
  *   get:
  *     summary: Obtém todos os níveis
  *     tags: [Níveis]
@@ -18,7 +18,7 @@ router.get("/", niveisController.obterNiveis);
 
 /**
  * @swagger
- * /niveis/{id_nivel}:
+ * /nivel/{id_nivel}:
  *   get:
  *     summary: Obtém um nível pelo ID
  *     tags: [Níveis]
@@ -41,7 +41,7 @@ router.get("/:id_nivel", niveisController.obterNivelPorId);
 
 /**
  * @swagger
- * /niveis/cadastro:
+ * /nivel/cadastro:
  *   post:
  *     summary: Cria um novo nível
  *     tags: [Níveis]
@@ -65,7 +65,7 @@ router.post("/cadastro", niveisController.criarNivel);
 
 /**
  * @swagger
- * /niveis/{id_nivel}:
+ * /nivel/{id_nivel}:
  *   put:
  *     summary: Atualiza um nível pelo ID
  *     tags: [Níveis]
@@ -98,7 +98,7 @@ router.put("/:id_nivel", niveisController.atualizarNivel);
 
 /**
  * @swagger
- * /niveis/{id_nivel}:
+ * /nivel/{id_nivel}:
  *   delete:
  *     summary: Deleta um nível pelo ID
  *     tags: [Níveis]
