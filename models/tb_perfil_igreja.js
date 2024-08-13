@@ -16,7 +16,7 @@ const PerfilIgreja = conn.define(
       allowNull: false,
     },
     qtd_membros: {
-      type: DataTypes.STRING,
+      type: DataTypes.INTEGER,
       allowNull: true,
     },
     cnpj: {
