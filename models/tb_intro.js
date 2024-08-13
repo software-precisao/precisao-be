@@ -23,6 +23,7 @@ const Intro = conn.define("tb_intro", {
 
 Intro.belongsTo(Perfil, {
   foreignKey: "id_perfil_igreja",
+  as: "Perfil"
 });
 
 

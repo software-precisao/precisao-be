@@ -15,11 +15,12 @@ const rotaLogin = require("./routes/login");
 const rotaNivel = require("./routes/nivel");
 const rotaStatus = require("./routes/status");
 const rotaUsuario = require("./routes/usuario");
-const rotaPerfil = require("./routes/perfil");
+const rotaPerfilIgreja = require("./routes/perfilIgreja");
 const rotaPlano = require("./routes/plano");
 const rotaTermo = require("./routes/termo");
 const rotaInput = require("./routes/input");
 const rotaProjeto = require("./routes/projeto");
+const rotaIntro = require("./routes/intro")
 
 
 app.use(morgan("dev"));
@@ -50,11 +51,13 @@ app.use("/login", rotaLogin);
 app.use("/nivel", rotaNivel);
 app.use("/status", rotaStatus);
 app.use("/usuario", rotaUsuario);
-app.use("/perfil", rotaPerfil);
+app.use("/perfil-igreja", rotaPerfilIgreja);
 app.use("/planos", rotaPlano);
 app.use("/termo", rotaTermo);
 app.use("/input", rotaInput);
 app.use("/projeto", rotaProjeto);
+app.use("/intro", rotaIntro);
+
 
 
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocument));
