@@ -3,6 +3,65 @@ require("dotenv").config();
 const PerfilIgreja = require('../../models/tb_perfil_igreja');
 const LogoIgreja = require('../../models/tb_logo');
 
+const createPerfilIgreja = async (req, res, next) => {
+  const {
+    nome_igreja,
+    qtd_membros,
+    cnpj,
+    nif,
+    telefone,
+    email_igreja,
+    website,
+    instagram,
+    facebook
+  } = req.body;
+
+  try {
+    const novoPerfilIgreja = await PerfilIgreja.create({
+      nome_igreja,
+      qtd_membros,
+      cnpj,
+      nif,
+      telefone,
+      email_igreja,
+      website,
+      instagram,
+      facebook
+    });
+    return res.status(201).json(novoPerfilIgreja);
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+
+
+const getPerfisIgreja = async (req, res, next) => {
+  try {
+    const perfisIgreja = await PerfilIgreja.findAll();
+    return res.status(200).json(perfisIgreja);
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+
+
+const getPerfilIgrejaById = async (req, res, next) => {
+  const { id_perfil_igreja } = req.params;
+
+  try {
+    const perfilIgreja = await PerfilIgreja.findByPk(id_perfil_igreja);
+    if (!perfilIgreja) {
+      return res.status(404).json({ error: 'Perfil da igreja não encontrado' });
+    }
+    return res.status(200).json(perfilIgreja);
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+
+
+
+
 const updatePerfilIgreja = async (req, res, next) => {
   const { id_perfil_igreja } = req.params;
   const {
@@ -52,6 +111,24 @@ const updatePerfilIgreja = async (req, res, next) => {
   }
 };
 
+const deletePerfilIgreja = async (req, res, next) => {
+  const { id_perfil_igreja } = req.params;
+
+  try {
+    const perfilIgreja = await PerfilIgreja.findByPk(id_perfil_igreja);
+    if (!perfilIgreja) {
+      return res.status(404).json({ error: 'Perfil da igreja não encontrado' });
+    }
+
+    await PerfilIgreja.destroy({ where: { id_perfil_igreja } });
+    return res.status(200).json({ message: 'Perfil da igreja deletado com sucesso!' });
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+
+
+
 const updateLogo = async (req, res, next) => {
     const { id_perfil_igreja } = req.params;
     const fileLogo = req.file ? `/logo/${req.file.filename}` : undefined;
@@ -84,6 +161,10 @@ const updateLogo = async (req, res, next) => {
   };
 
 module.exports = {
+  createPerfilIgreja,
+  getPerfisIgreja,
+  getPerfilIgrejaById,
   updatePerfilIgreja,
+  deletePerfilIgreja,
   updateLogo
 };
