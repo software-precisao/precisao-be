@@ -1,110 +1,219 @@
 const express = require('express');
 const router = express.Router();
-const { uploadFields } = require("../helpers/image-upload");
-
-const {
-  createUsuario,
-  createMeuUsuario,
-  updatePerfilUser,
-  updateAvatar,
-  getUsuarioDetalhado,
-  deleteUsuarioMaster,
-  deleteUsuarioSimples,
-} = require('../controllers/usuario/userController');
+const usuarioController = require('../controllers/usuario/userController');
 
 /**
  * @swagger
- * /usuario/criar:
+ * tags:
+ *   name: Usuários
+ *   description: Endpoints para gerenciar os usuários
+ */
+
+/**
+ * @swagger
+ * /cadastrar:
  *   post:
- *     summary: Cria um novo usuário com perfil de igreja
- *     tags: [Usuário]
+ *     summary: Cria um novo usuário
+ *     tags: [Usuários]
+ *     description: Cria um novo usuário com informações de autenticação, perfil e preferências.
  *     requestBody:
  *       required: true
  *       content:
- *         multipart/form-data:
+ *         application/json:
  *           schema:
  *             type: object
  *             properties:
  *               email:
  *                 type: string
+ *                 format: email
+ *                 description: Email do usuário
  *               senha:
  *                 type: string
+ *                 format: password
+ *                 description: Senha do usuário
  *               nome:
  *                 type: string
+ *                 description: Nome do usuário
  *               sobrenome:
  *                 type: string
+ *                 description: Sobrenome do usuário
  *               data_nascimento:
  *                 type: string
+ *                 format: date
+ *                 description: Data de nascimento do usuário
  *               genero:
  *                 type: string
+ *                 description: Gênero do usuário
  *               telefone1:
  *                 type: string
+ *                 description: Primeiro telefone do usuário
  *               telefone2:
  *                 type: string
- *               file:
+ *                 description: Segundo telefone do usuário
+ *               nome_igreja:
  *                 type: string
- *                 format: binary
+ *                 description: Nome da igreja
+ *               toda_igreja:
+ *                 type: boolean
+ *                 description: Preferência de toda a igreja
+ *               gestao_kids:
+ *                 type: boolean
+ *                 description: Preferência de gestão de crianças
+ *               secretaria:
+ *                 type: boolean
+ *                 description: Preferência de secretaria
+ *               tesouraria:
+ *                 type: boolean
+ *                 description: Preferência de tesouraria
+ *               midia:
+ *                 type: boolean
+ *                 description: Preferência de mídia
+ *               id_nivel:
+ *                 type: integer
+ *                 description: Nível do usuário
+ *               id_plano:
+ *                 type: integer
+ *                 description: Plano do usuário
  *     responses:
- *       202:
+ *       200:
  *         description: Usuário criado com sucesso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 mensagem:
+ *                   type: string
+ *                 usuarioCriado:
+ *                   type: object
+ *                   properties:
+ *                     id_user:
+ *                       type: integer
+ *                     nome:
+ *                       type: string
+ *                     email:
+ *                       type: string
+ *                     nivel:
+ *                       type: integer
+ *                     avatar:
+ *                       type: string
+ *                     preference:
+ *                       type: integer
+ *                     logo:
+ *                       type: string
+ *                     id_perfil_user:
+ *                       type: integer
+ *                     id_perfil_igreja:
+ *                       type: integer
+ *                     trial:
+ *                       type: integer
+ *                     start:
+ *                       type: integer
+ *                     code:
+ *                       type: string
  *       409:
  *         description: Email já cadastrado
  *       500:
  *         description: Erro interno do servidor
  */
-router.post('/criar', uploadFields, createUsuario);
+router.post('/cadastrar', usuarioController.createUsuario);
 
 /**
  * @swagger
- * /usuario/meu-usuario:
+ * /cadastrar-meu-usuario:
  *   post:
- *     summary: Cria um novo usuário simples
- *     tags: [Usuário]
+ *     summary: Cria um novo usuário com perfil
+ *     tags: [Usuários]
+ *     description: Cria um novo usuário com informações básicas e perfil.
  *     requestBody:
  *       required: true
  *       content:
- *         multipart/form-data:
+ *         application/json:
  *           schema:
  *             type: object
  *             properties:
  *               email:
  *                 type: string
+ *                 format: email
+ *                 description: Email do usuário
  *               senha:
  *                 type: string
+ *                 format: password
+ *                 description: Senha do usuário
  *               nome:
  *                 type: string
+ *                 description: Nome do usuário
  *               sobrenome:
  *                 type: string
+ *                 description: Sobrenome do usuário
  *               data_nascimento:
  *                 type: string
+ *                 format: date
+ *                 description: Data de nascimento do usuário
  *               genero:
  *                 type: string
+ *                 description: Gênero do usuário
  *               telefone1:
  *                 type: string
+ *                 description: Primeiro telefone do usuário
  *               telefone2:
  *                 type: string
- *               file:
- *                 type: string
- *                 format: binary
+ *                 description: Segundo telefone do usuário
+ *               id_perfil_igreja:
+ *                 type: integer
+ *                 description: ID do perfil da igreja
+ *               id_nivel:
+ *                 type: integer
+ *                 description: Nível do usuário
+ *               id_plano:
+ *                 type: integer
+ *                 description: Plano do usuário
  *     responses:
  *       202:
  *         description: Usuário criado com sucesso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 mensagem:
+ *                   type: string
+ *                 usuarioCriado:
+ *                   type: object
+ *                   properties:
+ *                     id_user:
+ *                       type: integer
+ *                     nome:
+ *                       type: string
+ *                     email:
+ *                       type: string
+ *                     nivel:
+ *                       type: integer
+ *                     avatar:
+ *                       type: string
+ *                     id_perfil_user:
+ *                       type: integer
+ *                     id_perfil_igreja:
+ *                       type: integer
+ *                     code:
+ *                       type: string
  *       409:
  *         description: Email já cadastrado
  *       500:
  *         description: Erro interno do servidor
  */
-router.post('/meu-usuario', uploadFields, createMeuUsuario);
+router.post('/cadastrar-meu-usuario', usuarioController.createMeuUsuario);
 
 /**
  * @swagger
- * /usuario/perfil-user/{id_user}:
+ * /usuario/{id_user}/perfil:
  *   put:
- *     summary: Atualiza o perfil de um usuário
- *     tags: [Usuário]
+ *     summary: Atualiza o perfil do usuário
+ *     tags: [Usuários]
+ *     description: Atualiza informações do perfil do usuário, como nome e telefone.
  *     parameters:
- *       - in: path
- *         name: id_user
+ *       - name: id_user
+ *         in: path
  *         required: true
  *         schema:
  *           type: integer
@@ -118,126 +227,174 @@ router.post('/meu-usuario', uploadFields, createMeuUsuario);
  *             properties:
  *               nome:
  *                 type: string
+ *                 description: Nome do usuário
  *               sobrenome:
  *                 type: string
+ *                 description: Sobrenome do usuário
  *               data_nascimento:
  *                 type: string
+ *                 format: date
+ *                 description: Data de nascimento do usuário
  *               genero:
  *                 type: string
+ *                 description: Gênero do usuário
  *               telefone1:
  *                 type: string
+ *                 description: Primeiro telefone do usuário
  *               telefone2:
  *                 type: string
+ *                 description: Segundo telefone do usuário
  *     responses:
  *       200:
- *         description: Perfil atualizado com sucesso
+ *         description: Perfil do usuário atualizado com sucesso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 id_user:
+ *                   type: integer
+ *                 nome:
+ *                   type: string
+ *                 sobrenome:
+ *                   type: string
+ *                 data_nascimento:
+ *                   type: string
+ *                   format: date
+ *                 genero:
+ *                   type: string
+ *                 telefone1:
+ *                   type: string
+ *                 telefone2:
+ *                   type: string
  *       404:
  *         description: Usuário não encontrado
  *       500:
  *         description: Erro interno do servidor
  */
-router.put('/perfil-user/:id_user', updatePerfilUser);
-
-/**
- * @swagger
- * /usuario/avatar/{id_user}:
- *   put:
- *     summary: Atualiza o avatar de um usuário
- *     tags: [Usuário]
- *     parameters:
- *       - in: path
- *         name: id_user
- *         required: true
- *         schema:
- *           type: integer
- *         description: ID do usuário
- *     requestBody:
- *       required: true
- *       content:
- *         multipart/form-data:
- *           schema:
- *             type: object
- *             properties:
- *               file:
- *                 type: string
- *                 format: binary
- *     responses:
- *       200:
- *         description: Avatar atualizado com sucesso
- *       404:
- *         description: Usuário não encontrado
- *       500:
- *         description: Erro interno do servidor
- */
-router.put('/avatar/:id_user', uploadFields, updateAvatar);
+router.put('/usuario/{id_user}/perfil', usuarioController.updateAvatar);
 
 /**
  * @swagger
  * /usuario/{id_user}:
  *   get:
- *     summary: Obtém detalhes completos de um usuário
- *     tags: [Usuário]
+ *     summary: Obtém detalhes do usuário
+ *     tags: [Usuários]
+ *     description: Retorna informações detalhadas de um usuário, incluindo perfil, preferências e código.
  *     parameters:
- *       - in: path
- *         name: id_user
+ *       - name: id_user
+ *         in: path
  *         required: true
  *         schema:
  *           type: integer
  *         description: ID do usuário
  *     responses:
  *       200:
- *         description: Detalhes do usuário retornados com sucesso
+ *         description: Detalhes do usuário obtidos com sucesso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 id_user:
+ *                   type: integer
+ *                 auth:
+ *                   type: object
+ *                   properties:
+ *                     email:
+ *                       type: string
+ *                 perfilUser:
+ *                   type: object
+ *                   properties:
+ *                     nome:
+ *                       type: string
+ *                     sobrenome:
+ *                       type: string
+ *                     data_nascimento:
+ *                       type: string
+ *                       format: date
+ *                     genero:
+ *                       type: string
+ *                     telefone1:
+ *                       type: string
+ *                     telefone2:
+ *                       type: string
+ *                 perfilIgreja:
+ *                   type: object
+ *                   properties:
+ *                     nome_igreja:
+ *                       type: string
+ *                 trial:
+ *                   type: object
+ *                   properties:
+ *                     id_trial:
+ *                       type: integer
+ *                 intro:
+ *                   type: object
+ *                   properties:
+ *                     id_intro:
+ *                       type: integer
+ *                 avatar:
+ *                   type: object
+ *                   properties:
+ *                     avatar:
+ *                       type: string
+ *                 code:
+ *                   type: string
  *       404:
  *         description: Usuário não encontrado
  *       500:
  *         description: Erro interno do servidor
  */
-router.get('/:id_user', getUsuarioDetalhado);
+router.get('/usuario/:id_user', usuarioController.getUsuarioDetalhado);
 
 /**
  * @swagger
- * /usuario/delete/usuario-master/{id_user}:
+ * /usuario/deletar-simples/{id_user}:
  *   delete:
- *     summary: Deleta um usuário e todas as suas associações
- *     tags: [Usuário]
+ *     summary: Exclui um usuário simples
+ *     tags: [Usuários]
+ *     description: Exclui um usuário do sistema sem considerar dependências de outras tabelas.
  *     parameters:
- *       - in: path
- *         name: id_user
+ *       - name: id_user
+ *         in: path
  *         required: true
  *         schema:
  *           type: integer
  *         description: ID do usuário
  *     responses:
  *       200:
- *         description: Usuário e associações deletadas com sucesso
+ *         description: Usuário excluído com sucesso
  *       404:
  *         description: Usuário não encontrado
  *       500:
  *         description: Erro interno do servidor
  */
-router.delete('/delete/usuario-master/:id_user', deleteUsuarioMaster);
+router.delete('/usuario/deletar-simples/:id_user', usuarioController.deleteUsuarioSimples);
 
 /**
  * @swagger
- * /usuario/delete/usuario-simples/{id_user}:
+ * /usuario/deletar-master/{id_user}:
  *   delete:
- *     summary: Deleta um usuário simples e suas associações
- *     tags: [Usuário]
+ *     summary: Exclui um usuário mestre
+ *     tags: [Usuários]
+ *     description: Exclui um usuário mestre do sistema e garante a limpeza completa de dados associados.
  *     parameters:
- *       - in: path
- *         name: id_user
+ *       - name: id_user
+ *         in: path
  *         required: true
  *         schema:
  *           type: integer
  *         description: ID do usuário
  *     responses:
  *       200:
- *         description: Usuário e associações deletadas com sucesso
+ *         description: Usuário mestre excluído com sucesso
  *       404:
  *         description: Usuário não encontrado
  *       500:
  *         description: Erro interno do servidor
  */
-router.delete('/delete/usuario-simples/:id_user', deleteUsuarioSimples);
+router.delete('/usuario/deletar-master/:id_user', usuarioController.deleteUsuarioMaster);
+
 
 module.exports = router;
