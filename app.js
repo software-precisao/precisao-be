@@ -55,8 +55,11 @@ app.use("/planos", rotaPlano);
 app.use("/termo", rotaTermo);
 app.use("/input", rotaInput);
 app.use("/projeto", rotaProjeto);
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> prod
 
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 
