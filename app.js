@@ -57,7 +57,6 @@ app.use("/input", rotaInput);
 app.use("/projeto", rotaProjeto);
 
 
-
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 
 app.get("/api-test", (req, res) => {
