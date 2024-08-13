@@ -1,41 +1,22 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const planosController = require("../controllers/plano/planoController");
+const planoController = require('../controllers/plano/planoController');
 
 /**
  * @swagger
- * /planos:
- *   get:
- *     summary: Obtém todos os planos
- *     tags: [Planos]
- *     responses:
- *       200:
- *         description: Lista de planos retornada com sucesso
- *       500:
- *         description: Erro interno do servidor
+ * tags:
+ *   name: Planos
+ *   description: Endpoints para gerenciar os planos
  */
-router.get("/", planosController.buscarTodosPlanos);
-
-/**
- * @swagger
- * /planos/items:
- *   get:
- *     summary: Obtém todos os itens de planos
- *     tags: [Planos]
- *     responses:
- *       200:
- *         description: Lista de itens de planos retornada com sucesso
- *       500:
- *         description: Erro interno do servidor
- */
-router.get("/items", planosController.buscarTodosItens);
 
 /**
  * @swagger
  * /planos/cadastrar:
  *   post:
- *     summary: Cria um novo plano
- *     tags: [Planos]
+ *     tags:
+ *       - Planos
+ *     summary: Cria um novo plano.
+ *     description: Cria um novo plano com detalhes e itens.
  *     requestBody:
  *       required: true
  *       content:
@@ -43,66 +24,83 @@ router.get("/items", planosController.buscarTodosItens);
  *           schema:
  *             type: object
  *             properties:
- *               titulo_plano:
+ *               nome_plano:
  *                 type: string
- *                 example: "Plano Básico"
- *               subtitulo_plano:
+ *               descricao:
  *                 type: string
- *                 example: "Subtítulo do Plano Básico"
- *               valor_plano_mes:
+ *               valor_plano:
  *                 type: string
- *                 example: "29.99"
  *               tag:
  *                 type: string
- *                 example: "basic"
- *               ofertas:
+ *               itens_do_plano:
  *                 type: array
  *                 items:
- *                   type: string
+ *                   type: object
+ *                   properties:
+ *                     item_plano:
+ *                       type: string
  *     responses:
  *       201:
- *         description: Plano criado com sucesso
+ *         description: Plano criado com sucesso.
  *       500:
- *         description: Erro interno do servidor
+ *         description: Erro ao criar plano.
  */
-router.post("/cadastrar", planosController.criarPlano);
+router.post('/cadastrar', planoController.criarPlano);
 
 /**
  * @swagger
- * /planos/buscar/{id_plano}:
+ * /planos/:
  *   get:
- *     summary: Obtém um plano pelo ID
- *     tags: [Planos]
- *     parameters:
- *       - in: path
- *         name: id_plano
- *         required: true
- *         schema:
- *           type: integer
- *         description: ID do plano
+ *     tags:
+ *       - Planos
+ *     summary: Retorna todos os planos.
+ *     description: Retorna uma lista de todos os planos existentes.
  *     responses:
  *       200:
- *         description: Plano retornado com sucesso
- *       404:
- *         description: Plano não encontrado
+ *         description: Lista de planos.
  *       500:
- *         description: Erro interno do servidor
+ *         description: Erro ao buscar planos.
  */
-router.get("/buscar/:id_plano", planosController.buscarPlanoPorId);
+router.get('/', planoController.buscarTodosPlanos);
 
 /**
  * @swagger
- * /planos/edit/{id_plano}:
- *   put:
- *     summary: Atualiza um plano pelo ID
- *     tags: [Planos]
+ * /planos/{id_plano}:
+ *   get:
+ *     tags:
+ *       - Planos
+ *     summary: Retorna um plano pelo ID.
+ *     description: Retorna detalhes de um plano específico pelo ID.
  *     parameters:
  *       - in: path
  *         name: id_plano
  *         required: true
  *         schema:
  *           type: integer
- *         description: ID do plano
+ *     responses:
+ *       200:
+ *         description: Detalhes do plano.
+ *       404:
+ *         description: Plano não encontrado.
+ *       500:
+ *         description: Erro ao buscar plano.
+ */
+router.get('/:id_plano', planoController.buscarPlanoPorId);
+
+/**
+ * @swagger
+ * /planos/editar/{id_plano}:
+ *   put:
+ *     tags:
+ *       - Planos
+ *     summary: Atualiza um plano existente.
+ *     description: Atualiza os detalhes e itens de um plano existente pelo ID.
+ *     parameters:
+ *       - in: path
+ *         name: id_plano
+ *         required: true
+ *         schema:
+ *           type: integer
  *     requestBody:
  *       required: true
  *       content:
@@ -110,45 +108,53 @@ router.get("/buscar/:id_plano", planosController.buscarPlanoPorId);
  *           schema:
  *             type: object
  *             properties:
- *               titulo_plano:
+ *               nome_plano:
  *                 type: string
- *               subtitulo_plano:
+ *               descricao:
  *                 type: string
- *               valor_plano_mes:
+ *               valor_plano:
  *                 type: string
  *               tag:
  *                 type: string
+ *               itens_do_plano:
+ *                 type: array
+ *                 items:
+ *                   type: object
+ *                   properties:
+ *                     item_plano:
+ *                       type: string
  *     responses:
  *       200:
- *         description: Plano atualizado com sucesso
+ *         description: Plano atualizado com sucesso.
  *       404:
- *         description: Plano não encontrado
+ *         description: Plano não encontrado.
  *       500:
- *         description: Erro interno do servidor
+ *         description: Erro ao atualizar plano.
  */
-router.put("/edit/:id_plano", planosController.atualizarPlano);
+router.put('/editar/:id_plano', planoController.atualizarPlano);
 
 /**
  * @swagger
- * /planos/delete/{id_plano}:
+ * /planos/deletar/{id_plano}:
  *   delete:
- *     summary: Deleta um plano pelo ID
- *     tags: [Planos]
+ *     tags:
+ *       - Planos
+ *     summary: Deleta um plano pelo ID.
+ *     description: Remove um plano específico pelo ID.
  *     parameters:
  *       - in: path
  *         name: id_plano
  *         required: true
  *         schema:
  *           type: integer
- *         description: ID do plano
  *     responses:
  *       200:
- *         description: Plano e itens relacionados deletados com sucesso
+ *         description: Plano deletado com sucesso.
  *       404:
- *         description: Plano não encontrado
+ *         description: Plano não encontrado.
  *       500:
- *         description: Erro interno do servidor
+ *         description: Erro ao deletar plano.
  */
-router.delete("/delete/:id_plano", planosController.deletarPlano);
+router.delete('/deletar/:id_plano', planoController.deletarPlano);
 
 module.exports = router;

@@ -1,32 +1,37 @@
 const { Sequelize, DataTypes } = require("sequelize");
 const conn = require("../data/conn");
 
-const ItemPlano = require("./tb_itens_plano");
-
-const Plano = conn.define("tb_plano", {
+const Plano = conn.define(
+  "tb_plano",
+  {
     id_plano: {
-        type: DataTypes.INTEGER,
-        autoIncrement: true,
-        primaryKey: true,
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
     },
-    titulo_plano: {
-        type: DataTypes.STRING,
-        allowNull: false,
+    nome_plano: {
+      type: DataTypes.STRING,
+      allowNull: false,
     },
-    subtitulo_plano: {      
-        type: DataTypes.STRING,
-        allowNull: false,
+    descricao: {
+      type: DataTypes.STRING,
+      allowNull: false,
     },
-    valor_plano_mes: {
-        type: DataTypes.STRING,
-        allowNull: false,
+    valor_plano: {
+      type: DataTypes.STRING,
+      allowNull: false,
     },
     tag: {
-        type: DataTypes.STRING,
-        allowNull: false,
+      type: DataTypes.STRING,
+      allowNull: false,
     },
-
-}, { freezeTableName: true });
-
+    itens_do_plano: {
+      type: DataTypes.JSON,
+      allowNull: true,
+      defaultValue: [],
+    },
+  },
+  { freezeTableName: true }
+);
 
 module.exports = Plano;
