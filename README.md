@@ -48,7 +48,7 @@ Dando o git push, vamos subir as alterações da nossa branch para a branch dev:
 
 ```git push```
 
-- Para subir as alterações para a main e deixar ela atualizada:
+- Para subir as alterações para a prod e deixar ela atualizada:
 
 ```git checkout prod```
 
