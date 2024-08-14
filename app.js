@@ -25,6 +25,7 @@ const rotaAvatar = require("./routes/avatar")
 const rotaPreference = require("./routes/preference")
 const rotaPerfilUser = require("./routes/perfilUser")
 const rotaProspect = require("./routes/prospect")
+const rotaTrial = require("./routes/trial")
 
 
 app.use(morgan("dev"));
@@ -65,7 +66,7 @@ app.use("/avatar", rotaAvatar)
 app.use("/preference", rotaPreference)
 app.use("/perfil-user", rotaPerfilUser)
 app.use("/prospect", rotaProspect)
-
+app.use("/trial", rotaTrial)
 
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 
