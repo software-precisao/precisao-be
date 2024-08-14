@@ -29,6 +29,7 @@ const Trial = conn.define(
 
 Trial.belongsTo(PerfilChurch, {
   foreignKey: "id_perfil_igreja",
+  as: "perfilChurch",
   foreignKeyConstraint: true,
 });
 
