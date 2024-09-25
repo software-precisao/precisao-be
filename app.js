@@ -27,6 +27,7 @@ const rotaPerfilUser = require("./routes/perfilUser")
 const rotaProspect = require("./routes/prospect")
 const rotaTrial = require("./routes/trial")
 const rotaCliente = require("./routes/cliente")
+const rotaProposta = require("./routes/proposta")
 
 
 app.use(morgan("dev"));
@@ -69,6 +70,7 @@ app.use("/perfil-user", rotaPerfilUser)
 app.use("/prospect", rotaProspect)
 app.use("/trial", rotaTrial)
 app.use("/cliente", rotaCliente)
+app.use("/proposta", rotaProposta)
 
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 
