@@ -30,9 +30,15 @@ const Proposta = conn.define(
       allowNull: false,
       defaultValue: 0,
     },
+    codigo_proposta: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+    },
   },
   { freezeTableName: true }
 );
+
 
 Proposta.prototype.calcularTotal = function () {
   const totalCustosFixos = this.custosFixos

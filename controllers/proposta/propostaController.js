@@ -26,11 +26,25 @@ const createProposta = async (req, res) => {
   try {
     const { descricao, custosFixos, custosVariaveis, colaboradores } = req.body;
 
+    let codigo_proposta;
+    let codigoGerado = false;
+
+    while (!codigoGerado) {
+      codigo_proposta = `PROP-${Math.floor(Math.random() * 100000)}`;
+      const propostaExistente = await Proposta.findOne({
+        where: { codigo_proposta },
+      });
+      if (!propostaExistente) {
+        codigoGerado = true;
+      }
+    }
+
     const novaProposta = await Proposta.create({
       descricao,
       custosFixos,
       custosVariaveis,
       colaboradores,
+      codigo_proposta,
     });
 
     novaProposta.calcularTotal();
