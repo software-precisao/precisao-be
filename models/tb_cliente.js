@@ -13,7 +13,7 @@ const Cliente = conn.define(
     },
     nome_cliente: {
       type: DataTypes.STRING,
-      allowNull: true,
+      allowNull: false,
     },
     id_projeto: {
       type: DataTypes.INTEGER,
@@ -37,16 +37,20 @@ const Cliente = conn.define(
     },
     email: {
       type: DataTypes.STRING,
-      allowNull: true,
+      allowNull: false,
     },
     observacao: {
       type: DataTypes.TEXT,
       allowNull: true,
     },
+    endereco: {
+      type: DataTypes.STRING,
+      allowNull: true
+    }
   },
   { freezeTableName: true }
 );
 
-Cliente.belongsTo(Projeto, { foreignKey: 'id_projeto', as: 'projetos' })
+Cliente.belongsTo(Projeto, { foreignKey: 'id_projeto', as: 'Projeto' })
 
 module.exports = Cliente;
