@@ -1,5 +1,7 @@
 const { Sequelize, DataTypes } = require("sequelize");
 const conn = require("../data/conn");
+const Cliente = require("./tb_cliente");
+const StatusProjeto = require("./tb_status_projeto");
 
 const Projeto = conn.define(
   "tb_projeto",
@@ -8,6 +10,10 @@ const Projeto = conn.define(
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
+    },
+    id_cliente: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
     },
     nome_projeto: {
       type: DataTypes.STRING,
@@ -53,7 +59,7 @@ const Projeto = conn.define(
       type: DataTypes.STRING,
       allowNull: true,
     },
-    status_projeto: {
+    id_status_projeto: {
       type: DataTypes.INTEGER,
       allowNull: true,
     },
@@ -68,5 +74,17 @@ const Projeto = conn.define(
   },
   { freezeTableName: true }
 );
+
+Projeto.belongsTo(Cliente, {
+  foreignKey: "id_cliente",
+  as: "cliente",
+  foreignKeyConstraint: true,
+});
+
+Projeto.belongsTo(StatusProjeto, {
+  foreignKey: "id_status_projeto",
+  as: "statusProjeto",
+  foreignKeyConstraint: true,
+});
 
 module.exports = Projeto;

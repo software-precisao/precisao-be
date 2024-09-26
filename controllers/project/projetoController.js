@@ -1,6 +1,6 @@
 const Projeto = require("../../models/tb_projetos");
+const StatusProjeto = require("../../models/tb_status_projeto");
 
-// Criar um novo projeto
 const criarProjeto = async (req, res, next) => {
   try {
     const fileCapa = req.file ? req.file.filename : "default-capa.png";
@@ -31,10 +31,17 @@ const criarProjeto = async (req, res, next) => {
   }
 };
 
-// Obter todos os projetos
 const obterProjetos = async (req, res, next) => {
   try {
-    const projetos = await Projeto.findAll();
+    const projetos = await Projeto.findAll({
+      include: [
+        {
+          model: StatusProjeto,
+          as: "statusProjeto",
+          attributes: ["status"],
+        },
+      ],
+    });
 
     return res.status(200).json(projetos);
   } catch (error) {
@@ -42,12 +49,19 @@ const obterProjetos = async (req, res, next) => {
   }
 };
 
-// Obter um projeto por ID
 const obterProjetoPorId = async (req, res, next) => {
   try {
     const { id_projeto } = req.params;
 
-    const projeto = await Projeto.findByPk(id_projeto);
+    const projeto = await Projeto.findByPk(id_projeto, {
+      include: [
+        {
+          model: StatusProjeto,
+          as: "statusProjeto",
+          attributes: ["status"],
+        },
+      ],
+    });
 
     if (!projeto) {
       return res.status(404).json({ message: "Projeto não encontrado" });
@@ -59,7 +73,6 @@ const obterProjetoPorId = async (req, res, next) => {
   }
 };
 
-// Atualizar um projeto por ID
 const atualizarProjeto = async (req, res, next) => {
   try {
     const { id_projeto } = req.params;
@@ -106,7 +119,6 @@ const atualizarProjeto = async (req, res, next) => {
   }
 };
 
-// Deletar um projeto por ID
 const deletarProjeto = async (req, res, next) => {
   try {
     const { id_projeto } = req.params;
