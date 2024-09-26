@@ -9,6 +9,7 @@ const criarProjeto = async (req, res, next) => {
     const novoProjeto = await Projeto.create({
       nome_projeto: req.body.nome_projeto,
       valor_projeto: req.body.valor_projeto,
+      id_cliente: req.body.id_cliente,
       descricao: req.body.descricao,
       valor_pago_inicial: req.body.valor_pago_inicial,
       logo: `/logo/${fileLogo}`,
@@ -80,6 +81,7 @@ const atualizarProjeto = async (req, res, next) => {
       nome_projeto,
       valor_projeto,
       descricao,
+      id_cliente,
       linguagem,
       repositorio_front,
       repositorio_back,
@@ -100,6 +102,7 @@ const atualizarProjeto = async (req, res, next) => {
     projetoExistente.valor_projeto = valor_projeto;
     projetoExistente.descricao = descricao;
     projetoExistente.linguagem = linguagem;
+    projetoExistente.id_cliente = id_cliente;
     projetoExistente.repositorio_front = repositorio_front;
     projetoExistente.repositorio_back = repositorio_back;
     projetoExistente.link_miro = link_miro;
