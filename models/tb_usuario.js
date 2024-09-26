@@ -29,7 +29,7 @@ const Usuario = conn.define(
     },
     id_nivel: {
       type: DataTypes.INTEGER,
-      allowNull: true,
+      allowNull: false,
     },
     id_plano: {
       type: DataTypes.INTEGER,

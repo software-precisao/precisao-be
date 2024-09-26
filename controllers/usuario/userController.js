@@ -97,7 +97,10 @@ const createUsuario = async (req, res, next) => {
       id_perfil_igreja: novoPerfilIgreja.id_perfil_igreja,
     });
 
-    const htmlFilePath = path.join(__dirname, "../../template/usuario/novo.html");
+    const htmlFilePath = path.join(
+      __dirname,
+      "../../template/usuario/novo.html"
+    );
     let htmlContent = await fs.readFile(htmlFilePath, "utf8");
 
     htmlContent = htmlContent
@@ -130,6 +133,72 @@ const createUsuario = async (req, res, next) => {
         id_perfil_igreja: novoPerfilIgreja.id_perfil_igreja,
         trial: novoTrial.id_trial,
         start: novoStart.id_intro,
+        code: code.code,
+      },
+    };
+
+    return res.status(200).send(response);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send({ error: error.message });
+  }
+};
+
+const createUsuarioAdmin = async (req, res, next) => {
+  try {
+    const emailExistente = await Auth.findOne({
+      where: { email: req.body.email },
+    });
+    if (emailExistente) {
+      return res.status(409).send({
+        mensagem: "Email já cadastrado, por favor insira um email diferente!",
+      });
+    }
+    const hashedPassword = await bcrypt.hash(req.body.senha, 10);
+    const fileAvatar = req.file ? req.file.filename : "default-avatar.png";
+
+    const novoUsuarioAuth = await Auth.create({
+      email: req.body.email,
+      senha: hashedPassword,
+    });
+
+    const novoPerfilUsuario = await PerfilUser.create({
+      nome: req.body.nome,
+      sobrenome: req.body.sobrenome,
+      data_nascimento: req.body.data_nascimento,
+      genero: req.body.genero,
+      telefone1: req.body.telefone1,
+      telefone2: req.body.telefone2,
+    });
+
+    const novoDadoUsuario = await Usuario.create({
+      id_auth: novoUsuarioAuth.id_auth,
+      id_status: 1,
+      id_nivel: 1,
+      id_perfil_user: novoPerfilUsuario.id_perfil_user,
+    });
+
+    const novoAvatarUsuario = await Avatar.create({
+      avatar: `/avatar/${fileAvatar}`,
+      id_user: novoDadoUsuario.id_user,
+    });
+
+    const codigoAleatorio = Math.floor(1000 + Math.random() * 9000).toString();
+
+    const code = await Code.create({
+      type_code: 1,
+      code: codigoAleatorio,
+    });
+
+    const response = {
+      mensagem: "Usuário cadastrado com sucesso",
+      usuarioCriado: {
+        id_user: novoDadoUsuario.id_user,
+        nome: novoPerfilUsuario.nome,
+        email: novoUsuarioAuth.email,
+        nivel: novoDadoUsuario.id_nivel,
+        avatar: novoAvatarUsuario.avatar,
+        id_perfil_user: novoPerfilUsuario.id_perfil_user,
         code: code.code,
       },
     };
@@ -415,4 +484,5 @@ module.exports = {
   getUsuarioDetalhado,
   deleteUsuarioMaster,
   deleteUsuarioSimples,
+  createUsuarioAdmin,
 };

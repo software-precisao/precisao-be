@@ -1,6 +1,6 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const usuarioController = require('../controllers/usuario/userController');
+const usuarioController = require("../controllers/usuario/userController");
 
 /**
  * @swagger
@@ -11,7 +11,7 @@ const usuarioController = require('../controllers/usuario/userController');
 
 /**
  * @swagger
- * /cadastrar:
+ * /usuario/cadastrar:
  *   post:
  *     summary: Cria um novo usuário
  *     tags: [Usuários]
@@ -116,11 +116,121 @@ const usuarioController = require('../controllers/usuario/userController');
  *       500:
  *         description: Erro interno do servidor
  */
-router.post('/cadastrar', usuarioController.createUsuario);
+router.post("/cadastrar", usuarioController.createUsuario);
 
 /**
  * @swagger
- * /cadastrar-meu-usuario:
+ * paths:
+ *   /usuario/cadastrar-admin:
+ *     post:
+ *       summary: "Cadastrar um novo usuário administrador"
+ *       description: "Esta rota permite que um administrador cadastre um novo usuário no sistema, incluindo informações pessoais e preferências da igreja."
+ *       tags:
+ *         - "Usuários"
+ *       requestBody:
+ *         required: true
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 email:
+ *                   type: string
+ *                   format: email
+ *                   example: "usuario@exemplo.com"
+ *                 senha:
+ *                   type: string
+ *                   example: "senhaSecreta123"
+ *                 nome:
+ *                   type: string
+ *                   example: "ragner"
+ *                 sobrenome:
+ *                   type: string
+ *                   example: "moura"
+ *                 data_nascimento:
+ *                   type: string
+ *                   format: date
+ *                   example: "1990-01-01"
+ *                 genero:
+ *                   type: string
+ *                   example: "masculino"
+ *                 telefone1:
+ *                   type: string
+ *                   example: "123456789"
+ *                 telefone2:
+ *                   type: string
+ *                   example: "987654321"
+ *                 avatar:
+ *                   type: string
+ *                   format: binary
+ *                   description: "Arquivo de avatar ou logo (opcional)"
+ *               required:
+ *                 - email
+ *                 - senha
+ *                 - nome
+ *                 - sobrenome
+ *       responses:
+ *         200:
+ *           description: "Usuário cadastrado com sucesso"
+ *           content:
+ *             application/json:
+ *               schema:
+ *                 type: object
+ *                 properties:
+ *                   mensagem:
+ *                     type: string
+ *                     example: "Usuário cadastrado com sucesso"
+ *                   usuarioCriado:
+ *                     type: object
+ *                     properties:
+ *                       id_user:
+ *                         type: integer
+ *                         example: 1
+ *                       nome:
+ *                         type: string
+ *                         example: "Nome"
+ *                       email:
+ *                         type: string
+ *                         example: "usuario@exemplo.com"
+ *                       nivel:
+ *                         type: integer
+ *                         example: 1
+ *                       avatar:
+ *                         type: string
+ *                         example: "/avatar/default-avatar.png"
+ *                       preference:
+ *                         type: integer
+ *                         example: 1
+ *                       code:
+ *                         type: string
+ *                         example: "1234"
+ *         409:
+ *           description: "Email já cadastrado"
+ *           content:
+ *             application/json:
+ *               schema:
+ *                 type: object
+ *                 properties:
+ *                   mensagem:
+ *                     type: string
+ *                     example: "Email já cadastrado, por favor insira um email diferente!"
+ *         500:
+ *           description: "Erro interno do servidor"
+ *           content:
+ *             application/json:
+ *               schema:
+ *                 type: object
+ *                 properties:
+ *                   error:
+ *                     type: string
+ *                     example: "Erro ao criar usuário"
+ */
+
+router.post("/cadastrar-admin", usuarioController.createUsuarioAdmin);
+
+/**
+ * @swagger
+ * /usuario/cadastrar-meu-usuario:
  *   post:
  *     summary: Cria um novo usuário com perfil
  *     tags: [Usuários]
@@ -202,7 +312,7 @@ router.post('/cadastrar', usuarioController.createUsuario);
  *       500:
  *         description: Erro interno do servidor
  */
-router.post('/cadastrar-meu-usuario', usuarioController.createMeuUsuario);
+router.post("/cadastrar-meu-usuario", usuarioController.createMeuUsuario);
 
 /**
  * @swagger
@@ -272,7 +382,7 @@ router.post('/cadastrar-meu-usuario', usuarioController.createMeuUsuario);
  *       500:
  *         description: Erro interno do servidor
  */
-router.put('/usuario/{id_user}/perfil', usuarioController.updateAvatar);
+router.put("/usuario/{id_user}/perfil", usuarioController.updateAvatar);
 
 /**
  * @swagger
@@ -346,7 +456,7 @@ router.put('/usuario/{id_user}/perfil', usuarioController.updateAvatar);
  *       500:
  *         description: Erro interno do servidor
  */
-router.get('/usuario/:id_user', usuarioController.getUsuarioDetalhado);
+router.get("/usuario/:id_user", usuarioController.getUsuarioDetalhado);
 
 /**
  * @swagger
@@ -370,7 +480,10 @@ router.get('/usuario/:id_user', usuarioController.getUsuarioDetalhado);
  *       500:
  *         description: Erro interno do servidor
  */
-router.delete('/usuario/deletar-simples/:id_user', usuarioController.deleteUsuarioSimples);
+router.delete(
+  "/usuario/deletar-simples/:id_user",
+  usuarioController.deleteUsuarioSimples
+);
 
 /**
  * @swagger
@@ -394,7 +507,9 @@ router.delete('/usuario/deletar-simples/:id_user', usuarioController.deleteUsuar
  *       500:
  *         description: Erro interno do servidor
  */
-router.delete('/usuario/deletar-master/:id_user', usuarioController.deleteUsuarioMaster);
-
+router.delete(
+  "/usuario/deletar-master/:id_user",
+  usuarioController.deleteUsuarioMaster
+);
 
 module.exports = router;
