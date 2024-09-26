@@ -1,10 +1,11 @@
 const Cliente = require("../../models/tb_cliente");
 const Projeto = require("../../models/tb_projetos");
+const TipoCliente = require("../../models/tb_tipo");
 
 const getClientes = async (req, res) => {
   try {
     const clientes = await Cliente.findAll({
-      include: [{ model: Projeto, as: 'Projeto' }],
+      include: [{ model: TipoCliente, as: 'tipo' }],
     });
     return res.status(200).json(clientes);
   } catch (error) {
@@ -16,7 +17,7 @@ const getClienteById = async (req, res) => {
   try {
     const { id_cliente } = req.params;
     const cliente = await Cliente.findByPk(id_cliente, {
-      include: [{ model: Projeto, as: 'Projeto' }],
+      include: [{ model: TipoCliente, as: 'tipo' }],
     });
     if (!cliente) {
       return res.status(404).json({ message: "Cliente não encontrado" });
@@ -31,9 +32,9 @@ const createCliente = async (req, res) => {
   try {
     const {
       nome_cliente,
-      id_projeto,
       razao_social,
       cnpj,
+      id_tipo_cliente,
       telefone1,
       telefone2,
       email,
@@ -48,9 +49,9 @@ const createCliente = async (req, res) => {
 
     const newCliente = await Cliente.create({
       nome_cliente,
-      id_projeto,
       razao_social,
       cnpj,
+      id_tipo_cliente,
       telefone1,
       telefone2,
       email,
@@ -68,12 +69,12 @@ const updateCliente = async (req, res) => {
     const { id_cliente } = req.params;
     const {
       nome_cliente,
-      id_projeto,
       razao_social,
       cnpj,
       telefone1,
       telefone2,
       email,
+      id_tipo_cliente,
       observacao,
       endereco,
     } = req.body;
@@ -84,9 +85,9 @@ const updateCliente = async (req, res) => {
     }
 
     existingCliente.nome_cliente = nome_cliente || existingCliente.nome_cliente;
-    existingCliente.id_projeto = id_projeto || existingCliente.id_projeto;
     existingCliente.razao_social = razao_social || existingCliente.razao_social;
     existingCliente.cnpj = cnpj || existingCliente.cnpj;
+    existingCliente.id_tipo_cliente = id_tipo_cliente || existingCliente.id_tipo_cliente;
     existingCliente.telefone1 = telefone1 || existingCliente.telefone1;
     existingCliente.telefone2 = telefone2 || existingCliente.telefone2;
     existingCliente.email = email || existingCliente.email;
@@ -107,7 +108,7 @@ const deleteCliente = async (req, res) => {
     if (!cliente) {
       return res.status(404).json({ message: "Cliente não encontrado" });
     }
-
+    await Projeto.destroy({ where: { id_cliente: cliente.id_cliente } });
     await cliente.destroy();
     return res.status(200).json({ message: "Cliente excluído com sucesso" });
   } catch (error) {

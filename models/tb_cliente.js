@@ -1,6 +1,6 @@
 const { Sequelize, DataTypes } = require("sequelize");
 const conn = require("../data/conn");
-
+const Tipo = require("./tb_tipo");
 
 const Cliente = conn.define(
   "tb_cliente",
@@ -17,6 +17,10 @@ const Cliente = conn.define(
     razao_social: {
       type: DataTypes.STRING,
       allowNull: true,
+    },
+    id_tipo_cliente: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
     },
     cnpj: {
       type: DataTypes.STRING,
@@ -40,11 +44,22 @@ const Cliente = conn.define(
     },
     endereco: {
       type: DataTypes.STRING,
-      allowNull: true
-    }
+      allowNull: true,
+    },
+    logo: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
   },
   { freezeTableName: true }
 );
 
+Cliente.belongsTo(Tipo, {
+  foreignKey: "id_tipo_cliente",
+  as: "tipo",
+  foreignKeyConstraint: true,
+  onDelete: 'CASCADE',
+  onUpdate: 'CASCADE'
+});
 
 module.exports = Cliente;

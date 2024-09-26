@@ -25,7 +25,7 @@ const clienteController = require('../controllers/cliente/clienteController');
  *             properties:
  *               nome_cliente:
  *                 type: string
- *               id_projeto:
+ *               id_tipo_cliente:
  *                 type: integer
  *               razao_social:
  *                 type: string
@@ -91,6 +91,8 @@ router.post('/cadastrar', clienteController.createCliente);
  *                     type: string
  *                   cnpj:
  *                     type: string
+ *                   id_tipo_cliente:
+ *                      type: integer
  *                   telefone1:
  *                     type: string
  *                   telefone2:
@@ -141,6 +143,8 @@ router.get('/', clienteController.getClientes);
  *                   type: string
  *                 cnpj:
  *                   type: string
+ *                 id_tipo_cliente:
+ *                   type: integer
  *                 telefone1:
  *                   type: string
  *                 telefone2:
@@ -174,7 +178,7 @@ router.get('/:id_cliente', clienteController.getClienteById);
 
 /**
  * @swagger
- * /cliente/{id_cliente}:
+ * /editar/cliente/{id_cliente}:
  *   put:
  *     summary: Atualizar um cliente existente
  *     tags: [Cliente]
@@ -201,6 +205,8 @@ router.get('/:id_cliente', clienteController.getClienteById);
  *                 type: string
  *               telefone1:
  *                 type: string
+ *               id_tipo_cliente:
+ *                 type: integer
  *               telefone2:
  *                 type: string
  *               email:
@@ -248,7 +254,7 @@ router.get('/:id_cliente', clienteController.getClienteById);
  *                 error:
  *                   type: string
  */
-router.put('/:id_cliente', clienteController.updateCliente);
+router.put('/editar/:id_cliente', clienteController.updateCliente);
 
 /**
  * @swagger
