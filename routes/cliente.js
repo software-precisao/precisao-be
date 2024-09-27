@@ -178,7 +178,7 @@ router.get('/:id_cliente', clienteController.getClienteById);
 
 /**
  * @swagger
- * /editar/cliente/{id_cliente}:
+ * /cliente/editar/{id_cliente}:
  *   put:
  *     summary: Atualizar um cliente existente
  *     tags: [Cliente]
