@@ -2,7 +2,8 @@ const bcrypt = require("bcrypt");
 const User = require("../../models/tb_auth");
 const Code = require("../../models/tb_code");
 require("dotenv").config();
-
+const path = require('path');
+const fs = require('fs').promises;
 const transporter = require("../../helpers/transporter");
 
 const obterUsuarioPorEmail = async (req, res, next) => {
