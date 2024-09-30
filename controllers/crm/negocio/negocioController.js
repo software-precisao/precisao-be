@@ -48,7 +48,6 @@ const createNegocio = async (req, res) => {
       id_vendedor,
       url_prospeccao,
       detalhe_negocio,
-      documento_importado,
       nome_lead,
       email_lead,
       telefone_lead,
@@ -70,7 +69,6 @@ const createNegocio = async (req, res) => {
       id_vendedor,
       url_prospeccao,
       detalhe_negocio,
-      documento_importado,
       nome_lead,
       email_lead,
       telefone_lead,
@@ -101,7 +99,6 @@ const updateNegocio = async (req, res) => {
       id_vendedor,
       url_prospeccao,
       detalhe_negocio,
-      documento_importado,
       nome_lead,
       email_lead,
       telefone_lead,
@@ -133,8 +130,6 @@ const updateNegocio = async (req, res) => {
       url_prospeccao || existingNegocio.url_prospeccao;
     existingNegocio.detalhe_negocio =
       detalhe_negocio || existingNegocio.detalhe_negocio;
-    existingNegocio.documento_importado =
-      documento_importado || existingNegocio.documento_importado;
     existingNegocio.nome_lead = nome_lead || existingNegocio.nome_lead;
     existingNegocio.email_lead = email_lead || existingNegocio.email_lead;
     existingNegocio.telefone_lead =

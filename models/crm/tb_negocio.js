@@ -45,10 +45,6 @@ const Negocio = conn.define(
       type: DataTypes.TEXT,
       allowNull: true,
     },
-    documento_importado: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
     nome_lead: {
       type: DataTypes.STRING,
       allowNull: true,
