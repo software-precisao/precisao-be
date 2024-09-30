@@ -35,6 +35,7 @@ const rotaOrigem = require("./routes/crm/origem")
 const rotaNegocio = require("./routes/crm/negocio")
 const rotaTipoNegocio = require("./routes/crm/tipoNegocio")
 const rotaVendedor = require("./routes/crm/vendedor")
+const rotaLinguagem = require("./routes/linguagem")
 
 
 
@@ -87,7 +88,7 @@ app.use("/tiponegocio", rotaTipoNegocio)
 app.use("/negocios", rotaNegocio)
 app.use("/vendedor", rotaVendedor)
 app.use("/origem", rotaOrigem)
-
+app.use("/linguagem", rotaLinguagem)
 
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 

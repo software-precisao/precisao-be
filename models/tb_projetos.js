@@ -2,6 +2,7 @@ const { Sequelize, DataTypes } = require("sequelize");
 const conn = require("../data/conn");
 const Cliente = require("./tb_cliente");
 const StatusProjeto = require("./tb_status_projeto");
+const Linguagem = require("./tb_linguagem");
 
 const Projeto = conn.define(
   "tb_projeto",
@@ -39,7 +40,7 @@ const Projeto = conn.define(
       type: DataTypes.TEXT,
       allowNull: true,
     },
-    linguagem: {
+    id_linguagem: {
       type: DataTypes.INTEGER,
       allowNull: true,
     },
@@ -84,6 +85,12 @@ Projeto.belongsTo(Cliente, {
 Projeto.belongsTo(StatusProjeto, {
   foreignKey: "id_status_projeto",
   as: "statusProjeto",
+  foreignKeyConstraint: true,
+});
+
+Projeto.belongsTo(Linguagem, {
+  foreignKey: "id_linguagem",
+  as: "linguagem",
   foreignKeyConstraint: true,
 });
 
