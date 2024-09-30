@@ -3,6 +3,7 @@ const conn = require("../../data/conn");
 const TipoNegocio = require("./tb_tipo_negocio");
 const Origem = require("./tb_origem");
 const Vendedor = require("./tb_vendedor");
+const Funil = require("./tb_funil");
 
 const Negocio = conn.define(
   "tb_negocio",
@@ -40,6 +41,10 @@ const Negocio = conn.define(
     url_prospeccao: {
       type: DataTypes.STRING,
       allowNull: true,
+    },
+    id_funil: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
     },
     detalhe_negocio: {
       type: DataTypes.TEXT,
@@ -109,6 +114,13 @@ Negocio.belongsTo(Vendedor, {
   foreignKey: "id_vendedor",
   as: "vendedor",
   foreignKeyConstraint: true,
+  onDelete: "CASCADE",
+  onUpdate: "CASCADE",
+});
+
+Negocio.belongsTo(Funil, {
+  foreignKey: "id_funil",
+  as: "funil",
   onDelete: "CASCADE",
   onUpdate: "CASCADE",
 });

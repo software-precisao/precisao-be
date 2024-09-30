@@ -2,6 +2,7 @@ const Negocio = require("../../../models/crm/tb_negocio");
 const TipoNegocio = require("../../../models/crm/tb_tipo_negocio");
 const Origem = require("../../../models/crm/tb_origem");
 const Vendedor = require("../../../models/crm/tb_vendedor");
+const Funil = require("../../../models/crm/tb_funil");
 
 const getNegocios = async (req, res) => {
   try {
@@ -10,6 +11,8 @@ const getNegocios = async (req, res) => {
         { model: TipoNegocio, as: "tipoNegocio" },
         { model: Origem, as: "origem" },
         { model: Vendedor, as: "vendedor" },
+        { model: Funil, as: "funil" },
+
       ],
     });
     return res.status(200).json(negocios);
@@ -26,6 +29,7 @@ const getNegocioById = async (req, res) => {
         { model: TipoNegocio, as: "tipoNegocio" },
         { model: Origem, as: "origem" },
         { model: Vendedor, as: "vendedor" },
+        { model: Funil, as: "funil" },
       ],
     });
     if (!negocio) {
@@ -44,6 +48,7 @@ const createNegocio = async (req, res) => {
       nome_prospect,
       id_tipo_negocio,
       id_origem,
+      id_funil,
       valor_aproximado,
       id_vendedor,
       url_prospeccao,
@@ -65,6 +70,7 @@ const createNegocio = async (req, res) => {
       nome_prospect,
       id_tipo_negocio,
       id_origem,
+      id_funil,
       valor_aproximado,
       id_vendedor,
       url_prospeccao,
@@ -95,6 +101,7 @@ const updateNegocio = async (req, res) => {
       nome_prospect,
       id_tipo_negocio,
       id_origem,
+      id_funil,
       valor_aproximado,
       id_vendedor,
       url_prospeccao,
@@ -118,6 +125,8 @@ const updateNegocio = async (req, res) => {
 
     existingNegocio.titulo_prospeccao =
       titulo_prospeccao || existingNegocio.titulo_prospeccao;
+      existingNegocio.id_funil =
+      id_funil || existingNegocio.id_funil;
     existingNegocio.nome_prospect =
       nome_prospect || existingNegocio.nome_prospect;
     existingNegocio.id_tipo_negocio =
