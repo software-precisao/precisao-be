@@ -1,6 +1,7 @@
 const Projeto = require("../../models/tb_projetos");
 const StatusProjeto = require("../../models/tb_status_projeto");
-const Linguagem = require("../../models/tb_linguagem")
+const Linguagem = require("../../models/tb_linguagem");
+const Cliente = require("../../models/tb_cliente");
 
 const criarProjeto = async (req, res, next) => {
   try {
@@ -55,7 +56,14 @@ const obterProjetos = async (req, res, next) => {
         {
           model: StatusProjeto,
           as: "statusProjeto",
-          attributes: ["status"],
+        },
+        {
+          model: Linguagem,
+          as: "linguagem",
+        },
+        {
+          model: Cliente,
+          as: "cliente",
         },
       ],
     });
@@ -75,7 +83,14 @@ const obterProjetoPorId = async (req, res, next) => {
         {
           model: StatusProjeto,
           as: "statusProjeto",
-          attributes: ["status"],
+        },
+        {
+          model: Linguagem,
+          as: "linguagem",
+        },
+        {
+          model: Cliente,
+          as: "cliente",
         },
       ],
     });
