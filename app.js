@@ -31,6 +31,11 @@ const rotaProposta = require("./routes/proposta")
 const rotaCustos = require("./routes/custos")
 const rotaStatusProjeto = require("./routes/status_projeto")
 const rotaTipoCliente = require("./routes/tipo")
+const rotaOrigem = require("./routes/crm/origem")
+const rotaNegocio = require("./routes/crm/negocio")
+const rotaTipoNegocio = require("./routes/crm/tipoNegocio")
+const rotaVendedor = require("./routes/crm/vendedor")
+
 
 
 app.use(morgan("dev"));
@@ -77,6 +82,12 @@ app.use("/proposta", rotaProposta)
 app.use("/custo", rotaCustos)
 app.use("/status-projeto", rotaStatusProjeto)
 app.use("/tipo-cliente", rotaTipoCliente)
+app.use("/vendedor", rotaVendedor)
+app.use("/tiponegocio", rotaTipoNegocio)
+app.use("/negocios", rotaNegocio)
+app.use("/vendedor", rotaVendedor)
+app.use("/origem", rotaOrigem)
+
 
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 
