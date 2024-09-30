@@ -1,7 +1,6 @@
 const Projeto = require("../../models/tb_projetos");
 const StatusProjeto = require("../../models/tb_status_projeto");
-const Linguagem = require("../../models/tb_linguagem");
-const Cliente = require("../../models/tb_cliente");
+const Linguagem = require("../../models/tb_linguagem")
 
 const criarProjeto = async (req, res, next) => {
   try {
@@ -21,11 +20,6 @@ const criarProjeto = async (req, res, next) => {
       return res.status(404).json({ error: "Linguagem não encontrada." });
     }
 
-    const clienteExiste = await Cliente.findByPk(id_cliente);
-    if (!clienteExiste) {
-      return res.status(404).json({ error: "Cliente não encontrado." });
-    }
-
     const fileCapa = req.file ? req.file.filename : "default-capa.png";
     const fileLogo = req.file ? req.file.filename : "default-logo.png";
 
@@ -37,7 +31,7 @@ const criarProjeto = async (req, res, next) => {
       valor_pago_inicial: req.body.valor_pago_inicial,
       logo: `/logo/${fileLogo}`,
       capa: `/capa/${fileCapa}`,
-      id_linguagem, 
+      id_linguagem: req.body.id_linguagem,  
       repositorio_front: req.body.repositorio_front,
       repositorio_back: req.body.repositorio_back,
       link_miro: req.body.link_miro,
@@ -53,6 +47,7 @@ const criarProjeto = async (req, res, next) => {
   }
 };
 
+
 const obterProjetos = async (req, res, next) => {
   try {
     const projetos = await Projeto.findAll({
@@ -61,15 +56,6 @@ const obterProjetos = async (req, res, next) => {
           model: StatusProjeto,
           as: "statusProjeto",
           attributes: ["status"],
-        },
-        {
-          model: Linguagem,
-          as: "linguagem",
-          attributes: ["linguagem"]
-        },
-        {
-          model: Cliente,
-          as: "cliente",
         },
       ],
     });
@@ -91,15 +77,6 @@ const obterProjetoPorId = async (req, res, next) => {
           as: "statusProjeto",
           attributes: ["status"],
         },
-        {
-          model: Linguagem,
-          as: "linguagem",
-          attributes: ["linguagem"]
-        },
-        {
-          model: Cliente,
-          as: "cliente",
-        }
       ],
     });
 
@@ -174,6 +151,8 @@ const atualizarProjeto = async (req, res, next) => {
     return res.status(500).json({ error: error.message });
   }
 };
+
+
 
 const deletarProjeto = async (req, res, next) => {
   try {
