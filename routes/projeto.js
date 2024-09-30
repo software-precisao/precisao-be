@@ -1,5 +1,7 @@
 const express = require('express');
 const router = express.Router();
+const { uploadFields } = require("../helpers/image-upload");
+
 const {
   criarProjeto,
   obterProjetos,
@@ -41,7 +43,7 @@ const {
  *       500:
  *         description: Erro interno do servidor
  */
-router.post('/cadastrar', criarProjeto);
+router.post('/cadastrar', uploadFields, criarProjeto);
 
 /**
  * @swagger
@@ -168,7 +170,7 @@ router.get('/:id_projeto', obterProjetoPorId);
  *       500:
  *         description: Erro interno do servidor
  */
-router.put('/editar/:id_projeto', atualizarProjeto);
+router.put('/editar/:id_projeto', uploadFields, atualizarProjeto);
 
 /**
  * @swagger
