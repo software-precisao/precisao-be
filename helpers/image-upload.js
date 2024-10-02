@@ -15,6 +15,8 @@ const storage = multer.diskStorage({
       folder = "documento";
     } else if (file.fieldname === "foto") {
       folder = "foto";
+    } else if (file.fieldname === "logo_parceiro") {
+      folder = "logo_parceiro";
     } else {
       folder = "avatar";
     }
@@ -44,6 +46,8 @@ const uploadFields = multer({
   { name: "logo", maxCount: 1 },
   { name: "capa", maxCount: 1 },
   { name: "foto", maxCount: 10 },
+  { name: "logo_parceiro", maxCount: 10 },
+
 ]);
 
 // Instância do Multer para array de fotos
