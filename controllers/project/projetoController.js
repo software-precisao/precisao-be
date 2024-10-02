@@ -5,15 +5,34 @@ const Cliente = require("../../models/tb_cliente");
 
 const criarProjeto = async (req, res, next) => {
   try {
-    const { id_status_projeto, id_cliente, nome_projeto, valor_projeto, id_linguagem } = req.body;
+    const {
+      id_status_projeto,
+      id_cliente,
+      nome_projeto,
+      valor_projeto,
+      id_linguagem,
+    } = req.body;
 
-    if (!id_cliente || !nome_projeto || valor_projeto === undefined || !id_status_projeto || !id_linguagem) {
-      return res.status(400).json({ error: "Os campos id_cliente, nome_projeto, valor_projeto, id_status_projeto e id_linguagem são obrigatórios." });
+    if (
+      !id_cliente ||
+      !nome_projeto ||
+      valor_projeto === undefined ||
+      !id_status_projeto ||
+      !id_linguagem
+    ) {
+      return res
+        .status(400)
+        .json({
+          error:
+            "Os campos id_cliente, nome_projeto, valor_projeto, id_status_projeto e id_linguagem são obrigatórios.",
+        });
     }
 
     const statusExistente = await StatusProjeto.findByPk(id_status_projeto);
     if (!statusExistente) {
-      return res.status(404).json({ error: "Status do projeto não encontrado." });
+      return res
+        .status(404)
+        .json({ error: "Status do projeto não encontrado." });
     }
 
     const linguagemExistente = await Linguagem.findByPk(id_linguagem);
@@ -21,8 +40,14 @@ const criarProjeto = async (req, res, next) => {
       return res.status(404).json({ error: "Linguagem não encontrada." });
     }
 
-    const fileCapa = req.file ? req.file.filename : "default-capa.png";
-    const fileLogo = req.file ? req.file.filename : "default-logo.png";
+    console.log("Arquivos recebidos:", req.files);
+
+    const fileCapa = req.files.capa
+      ? req.files.capa[0].filename
+      : "default-capa.png";
+    const fileLogo = req.files.logo
+      ? req.files.logo[0].filename
+      : "default-logo.png";
 
     const novoProjeto = await Projeto.create({
       nome_projeto,
@@ -32,7 +57,7 @@ const criarProjeto = async (req, res, next) => {
       valor_pago_inicial: req.body.valor_pago_inicial,
       logo: `/logo/${fileLogo}`,
       capa: `/capa/${fileCapa}`,
-      id_linguagem: req.body.id_linguagem,  
+      id_linguagem: req.body.id_linguagem,
       repositorio_front: req.body.repositorio_front,
       repositorio_back: req.body.repositorio_back,
       link_miro: req.body.link_miro,
@@ -42,12 +67,13 @@ const criarProjeto = async (req, res, next) => {
       data_fim: req.body.data_fim,
     });
 
-    return res.status(201).json({ message: "Projeto criado com sucesso!", projeto: novoProjeto });
+    return res
+      .status(201)
+      .json({ message: "Projeto criado com sucesso!", projeto: novoProjeto });
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }
 };
-
 
 const obterProjetos = async (req, res, next) => {
   try {
@@ -132,9 +158,11 @@ const atualizarProjeto = async (req, res, next) => {
     if (id_status_projeto) {
       const statusExistente = await StatusProjeto.findByPk(id_status_projeto);
       if (!statusExistente) {
-        return res.status(404).json({ error: "Status do projeto não encontrado." });
+        return res
+          .status(404)
+          .json({ error: "Status do projeto não encontrado." });
       }
-      projetoExistente.id_status_projeto = id_status_projeto; 
+      projetoExistente.id_status_projeto = id_status_projeto;
     }
 
     if (id_linguagem) {
@@ -146,15 +174,28 @@ const atualizarProjeto = async (req, res, next) => {
     }
 
     if (nome_projeto) projetoExistente.nome_projeto = nome_projeto;
-    if (valor_projeto !== undefined) projetoExistente.valor_projeto = valor_projeto; 
+    if (valor_projeto !== undefined)
+      projetoExistente.valor_projeto = valor_projeto;
     if (descricao) projetoExistente.descricao = descricao;
     if (id_cliente) projetoExistente.id_cliente = id_cliente;
-    if (repositorio_front) projetoExistente.repositorio_front = repositorio_front;
+    if (repositorio_front)
+      projetoExistente.repositorio_front = repositorio_front;
     if (repositorio_back) projetoExistente.repositorio_back = repositorio_back;
     if (link_miro) projetoExistente.link_miro = link_miro;
     if (link_jira) projetoExistente.link_jira = link_jira;
     if (data_inicio) projetoExistente.data_inicio = data_inicio;
     if (data_fim) projetoExistente.data_fim = data_fim;
+
+    const fileCapa = req.files.capa ? req.files.capa[0].filename : null;
+    const fileLogo = req.files.logo ? req.files.logo[0].filename : null;
+
+    if (fileLogo) {
+      projetoExistente.logo = `/logo/${fileLogo}`;
+    }
+
+    if (fileCapa) {
+      projetoExistente.capa = `/capa/${fileCapa}`;
+    }
 
     await projetoExistente.save();
 
@@ -166,8 +207,6 @@ const atualizarProjeto = async (req, res, next) => {
     return res.status(500).json({ error: error.message });
   }
 };
-
-
 
 const deletarProjeto = async (req, res, next) => {
   try {
