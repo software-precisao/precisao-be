@@ -38,7 +38,7 @@ const rotaVendedor = require("./routes/crm/vendedor")
 const rotaLinguagem = require("./routes/linguagem")
 const rotaFunil = require("./routes/crm/funil")
 const rotaToken = require("./routes/token")
-
+const rotaDevesenvolvedor = require("./routes/crm/desenvolvedor")
 
 app.use(morgan("dev"));
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -92,6 +92,7 @@ app.use("/origem", rotaOrigem)
 app.use("/linguagem", rotaLinguagem)
 app.use("/funil", rotaFunil)
 app.use("/token", rotaToken)
+app.use("/dev", rotaDevesenvolvedor)
 
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 
