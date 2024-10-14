@@ -14,8 +14,12 @@ const Vendedor = conn.define(
       allowNull: true,
     },
     valor_hora: {
-        type: DataTypes.DECIMAL(10, 2),
-        allowNull: false,
+      type: DataTypes.DECIMAL(10, 2),
+      allowNull: true,
+    },
+    area: {
+      type: DataTypes.STRING,
+      allowNull: true,
     },
   },
   { freezeTableName: true }

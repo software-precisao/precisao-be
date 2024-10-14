@@ -24,10 +24,11 @@ const getDesenvolvedorById = async (req, res) => {
 
 const createDesenvolvedor = async (req, res) => {
   try {
-    const { desenvolvedor, valor_hora } = req.body;
+    const { desenvolvedor, valor_hora,area } = req.body;
     const novoDesenvolvedor = await Vendedor.create({
       desenvolvedor,
       valor_hora,
+      area
     });
     return res.status(201).json(novoDesenvolvedor);
   } catch (error) {
@@ -38,7 +39,7 @@ const createDesenvolvedor = async (req, res) => {
 const updateDesenvolvedor = async (req, res) => {
   try {
     const { id_dev } = req.params;
-    const { desenvolvedor, valor_hora } = req.body;
+    const { desenvolvedor, valor_hora, area} = req.body;
 
     const desenvolvedorExistente = await Vendedor.findByPk(id_dev);
     if (!desenvolvedorExistente) {
@@ -49,6 +50,8 @@ const updateDesenvolvedor = async (req, res) => {
       desenvolvedor || desenvolvedorExistente.desenvolvedor;
     desenvolvedorExistente.valor_hora =
       valor_hora || desenvolvedorExistente.valor_hora;
+      desenvolvedorExistente.area =
+      area || desenvolvedorExistente.area;
 
     await desenvolvedorExistente.save();
     return res.status(200).json(desenvolvedorExistente);
