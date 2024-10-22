@@ -456,7 +456,7 @@ router.put("/{id_user}/perfil", usuarioController.updateAvatar);
  *       500:
  *         description: Erro interno do servidor
  */
-router.get("/:id_user", usuarioController.getUsuarioDetalhado);
+// router.get("/:id_user", usuarioController.getUsuarioDetalhado);
 
 /**
  * @swagger
@@ -512,10 +512,8 @@ router.delete(
   usuarioController.deleteUsuarioMaster
 );
 
-router.get(
-  "/",
-  usuarioController.getAllUsers
-);
+router.get("/", usuarioController.getAllUsers);
 
+router.get("/:id_user", usuarioController.getUserById);
 
 module.exports = router;

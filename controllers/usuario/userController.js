@@ -376,33 +376,61 @@ const updateAvatar = async (req, res, next) => {
   }
 };
 
-const getUsuarioDetalhado = async (req, res, next) => {
+// const getUsuarioDetalhado = async (req, res, next) => {
+//   const { id_user } = req.params;
+
+//   try {
+//     const usuarioDetalhado = await Usuario.findOne({
+//       where: { id_user },
+//       include: [
+//         { model: Auth, as: "auth", attributes: ["email"] },
+//         { model: PerfilUser, as: "perfilUser" },
+//         { model: PerfilChurch, as: "perfilIgreja" },
+//         { model: Trial, as: "trial" },
+//         { model: Intro, as: "intro" },
+//         { model: Avatar, as: "avatar" },
+//         { model: Code, as: "code" },
+//       ],
+//     });
+
+//     if (!usuarioDetalhado) {
+//       return res.status(404).json({ error: "Usuário não encontrado" });
+//     }
+
+//     return res.status(200).json(usuarioDetalhado);
+//   } catch (error) {
+//     console.log(error);
+//     return res.status(500).json({ error: error.message });
+//   }
+// };
+
+const getUserById =  async (req, res) => {
   const { id_user } = req.params;
 
   try {
-    const usuarioDetalhado = await Usuario.findOne({
+    const usuario = await Usuario.findOne({
       where: { id_user },
       include: [
-        { model: Auth, as: "auth", attributes: ["email"] },
-        { model: PerfilUser, as: "perfilUser" },
-        { model: PerfilChurch, as: "perfilIgreja" },
-        { model: Trial, as: "trial" },
-        { model: Intro, as: "intro" },
-        { model: Avatar, as: "avatar" },
-        { model: Code, as: "code" },
-      ],
+        { model: Auth, as: 'auth' },
+        { model: Status, as: 'status' },
+        { model: Nivel, as: 'nivel' },
+        { model: Plano, as: 'plano' },
+        { model: Preference, as: 'preference' },
+        { model: PerfilUser, as: 'perfilUser' },
+        { model: PerfilChurch, as: 'perfilIgreja' }
+      ]
     });
 
-    if (!usuarioDetalhado) {
-      return res.status(404).json({ error: "Usuário não encontrado" });
+    if (!usuario) {
+      return res.status(404).json({ message: "Usuário não encontrado." });
     }
 
-    return res.status(200).json(usuarioDetalhado);
+    res.json(usuario);
   } catch (error) {
-    console.log(error);
-    return res.status(500).json({ error: error.message });
+    console.error("Erro ao buscar usuário:", error);
+    res.status(500).json({ message: "Erro ao buscar usuário." });
   }
-};
+}
 
 
 const getAllUsers = async (req, res) => {
@@ -509,9 +537,10 @@ module.exports = {
   createMeuUsuario,
   updatePerfilUser,
   updateAvatar,
-  getUsuarioDetalhado,
+  // getUsuarioDetalhado,
   deleteUsuarioMaster,
   deleteUsuarioSimples,
   createUsuarioAdmin,
-  getAllUsers
+  getAllUsers,
+  getUserById
 };
