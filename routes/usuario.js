@@ -512,4 +512,10 @@ router.delete(
   usuarioController.deleteUsuarioMaster
 );
 
+router.get(
+  "/",
+  usuarioController.getAllUsers
+);
+
+
 module.exports = router;

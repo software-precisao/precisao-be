@@ -16,6 +16,10 @@ const Intro = require("../../models/tb_intro");
 const Avatar = require("../../models/tb_avatar");
 const Logo = require("../../models/tb_logo");
 const Preferences = require("../../models/tb_preference");
+const Status = require("../../models/tb_status");
+const Nivel = require("../../models/tb_nivel");
+const Plano = require("../../models/tb_plano");
+const Preference = require("../../models/tb_preference");
 
 const createUsuario = async (req, res, next) => {
   try {
@@ -400,6 +404,30 @@ const getUsuarioDetalhado = async (req, res, next) => {
   }
 };
 
+
+const getAllUsers = async (req, res) => {
+  try {
+    const usuarios = await Usuario.findAll({
+      include: [
+        { model: Auth, as: 'auth' },
+        { model: Status, as: 'status' },
+        { model: Nivel, as: 'nivel' },
+        { model: Plano, as: 'plano' },
+        { model: Preference, as: 'preference' },
+        { model: PerfilUser, as: 'perfilUser' },
+        { model: PerfilChurch, as: 'perfilIgreja' }
+      ]
+    });
+    console.log("pegando usuarios")
+    
+    res.json(usuarios);
+  } catch (error) {
+    console.error("Erro ao buscar usuários:", error);
+    
+    res.status(500).json({ message: "Erro ao buscar usuários." });
+  }
+}
+
 const deleteUsuarioMaster = async (req, res, next) => {
   const { id_user } = req.params;
 
@@ -485,4 +513,5 @@ module.exports = {
   deleteUsuarioMaster,
   deleteUsuarioSimples,
   createUsuarioAdmin,
+  getAllUsers
 };
