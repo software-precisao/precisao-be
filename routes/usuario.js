@@ -382,7 +382,7 @@ router.post("/cadastrar-meu-usuario", usuarioController.createMeuUsuario);
  *       500:
  *         description: Erro interno do servidor
  */
-router.put("/usuario/{id_user}/perfil", usuarioController.updateAvatar);
+router.put("/{id_user}/perfil", usuarioController.updateAvatar);
 
 /**
  * @swagger
@@ -456,7 +456,7 @@ router.put("/usuario/{id_user}/perfil", usuarioController.updateAvatar);
  *       500:
  *         description: Erro interno do servidor
  */
-router.get("/usuario/:id_user", usuarioController.getUsuarioDetalhado);
+router.get("/:id_user", usuarioController.getUsuarioDetalhado);
 
 /**
  * @swagger
@@ -481,7 +481,7 @@ router.get("/usuario/:id_user", usuarioController.getUsuarioDetalhado);
  *         description: Erro interno do servidor
  */
 router.delete(
-  "/usuario/deletar-simples/:id_user",
+  "/deletar-simples/:id_user",
   usuarioController.deleteUsuarioSimples
 );
 
@@ -508,7 +508,7 @@ router.delete(
  *         description: Erro interno do servidor
  */
 router.delete(
-  "/usuario/deletar-master/:id_user",
+  "/deletar-master/:id_user",
   usuarioController.deleteUsuarioMaster
 );
 
