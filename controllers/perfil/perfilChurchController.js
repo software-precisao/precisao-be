@@ -13,8 +13,10 @@ const createPerfilIgreja = async (req, res, next) => {
     email_igreja,
     website,
     instagram,
-    facebook
+    facebook,
+    input_ids 
   } = req.body;
+  console.log(req.body.input_ids); 
 
   try {
     const novoPerfilIgreja = await PerfilIgreja.create({
@@ -26,13 +28,16 @@ const createPerfilIgreja = async (req, res, next) => {
       email_igreja,
       website,
       instagram,
-      facebook
+      facebook,
+      input_ids 
     });
     return res.status(201).json(novoPerfilIgreja);
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }
 };
+
+
 
 
 const getPerfisIgreja = async (req, res, next) => {
@@ -73,17 +78,16 @@ const updatePerfilIgreja = async (req, res, next) => {
     email_igreja,
     website,
     instagram,
-    facebook
+    facebook,
+    input_ids 
   } = req.body;
 
   try {
-    // Verifica se o perfil da igreja existe
     const perfilIgreja = await PerfilIgreja.findByPk(id_perfil_igreja);
     if (!perfilIgreja) {
       return res.status(404).json({ error: 'Perfil da igreja não encontrado' });
     }
 
-    // Cria um objeto com os campos a serem atualizados
     const updatedFields = {};
     if (nome_igreja !== undefined) updatedFields.nome_igreja = nome_igreja;
     if (qtd_membros !== undefined) updatedFields.qtd_membros = qtd_membros;
@@ -94,8 +98,8 @@ const updatePerfilIgreja = async (req, res, next) => {
     if (website !== undefined) updatedFields.website = website;
     if (instagram !== undefined) updatedFields.instagram = instagram;
     if (facebook !== undefined) updatedFields.facebook = facebook;
+    if (input_ids !== undefined) updatedFields.input_ids = input_ids; 
 
-    // Atualiza o perfil da igreja
     const [updated] = await PerfilIgreja.update(updatedFields, {
       where: { id_perfil_igreja }
     });
@@ -110,6 +114,8 @@ const updatePerfilIgreja = async (req, res, next) => {
     return res.status(500).json({ error: error.message });
   }
 };
+
+
 
 const deletePerfilIgreja = async (req, res, next) => {
   const { id_perfil_igreja } = req.params;

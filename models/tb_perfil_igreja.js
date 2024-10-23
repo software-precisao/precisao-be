@@ -49,6 +49,10 @@ const PerfilIgreja = conn.define(
       type: DataTypes.STRING,
       allowNull: true,
     },
+    inputs_ids: {
+      type: DataTypes.JSON,
+      allowNull: true, 
+    }
   },
   { freezeTableName: true }
 );
