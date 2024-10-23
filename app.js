@@ -44,6 +44,7 @@ const rotaCargo = require("./routes/cargo")
 const rotaMembro = require("./routes/membros")
 const rotaControlePatrimonio = require("./routes/controlePatrimonio")
 const rotaPregacao = require("./routes/pregacao")
+const rotaCompromisso = require("./routes/compromisso")
 
 app.use(morgan("dev"));
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -103,6 +104,7 @@ app.use("/cargo", rotaCargo)
 app.use("/membro", rotaMembro)
 app.use("/controle-patrimonio", rotaControlePatrimonio)
 app.use("/pregacao", rotaPregacao)
+app.use("/compromisso", rotaCompromisso)
 
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 
