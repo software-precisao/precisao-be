@@ -37,6 +37,10 @@ const Membro = conn.define(
       type: DataTypes.DATE,
       allowNull: false,
     },
+    idade: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+    },
     nome_pai: {
       type: DataTypes.STRING,
       allowNull: true,
