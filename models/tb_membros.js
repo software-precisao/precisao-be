@@ -82,6 +82,10 @@ const Membro = conn.define(
       type: DataTypes.STRING,
       allowNull: true,
     },
+    observacoes: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+    },
   },
   { freezeTableName: true }
 );
